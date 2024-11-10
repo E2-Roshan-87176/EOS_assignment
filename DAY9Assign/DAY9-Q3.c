@@ -8,22 +8,25 @@ int main() {
         ret = fork();
         if(ret == -1) { // parent
             printf("fork() failed.\n");
-            _exit(0);
         }
         else if(ret == 0) {
             // child process
-            sleep(5);
-            _exit(0);
+            sleep(0);
+            _exit(7);
         }
         else {
             // parent process
+            if(ret!=0){
             cnt++;
             printf("child count: %d\n", cnt);
-            if(ret==-1) {
-                waitpid(ret, &s, 0);
-                printf("child exit status: %d\n", WEXITSTATUS(s));
-              }
-        }
+	    while(waitpid(-1, &s, 0) > 0){
+         printf("child exit status: %d\n", WEXITSTATUS(s));
+       } 
+            }
     }
+  }
+  	 //while(waitpid(-1, &s, 0) > 0){
+        // printf("child exit status: %d\n", WEXITSTATUS(s));
+     
     return 0;
 }
